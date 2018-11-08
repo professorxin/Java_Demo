@@ -6,7 +6,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 
-
+  <!--shiro拦截器-->
   <filter>
     <filter-name>shiroFilter</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -18,16 +18,19 @@
   </filter-mapping>
 
 
+  <!--spring配置监听器-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <!--spring配置文件路径，启动时就加载-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:spring.xml</param-value>
   </context-param>
 
 
+  <!--springmvc的控制器-->
   <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -43,4 +46,3 @@
   </servlet-mapping>
 
 </web-app>
-        

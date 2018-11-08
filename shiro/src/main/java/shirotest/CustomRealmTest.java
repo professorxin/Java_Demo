@@ -13,9 +13,11 @@ public class CustomRealmTest {
 
     @Test
     public void Test(){
+
         CustomRealm customRealm=new CustomRealm();
         //构件SercurityManager的环境
         DefaultSecurityManager defaultSecurityManager=new DefaultSecurityManager();
+        //设置自定义的Realm
         defaultSecurityManager.setRealm(customRealm);
 
         //加密
@@ -32,10 +34,6 @@ public class CustomRealmTest {
         subject.login(token);
         System.out.println("认证是否成功:"+subject.isAuthenticated());
 
-        //subject.logout();
-        //System.out.println("认证是否成功:"+subject.isAuthenticated());
-
-        //subject.checkRoles("admin");
-        //subject.checkPermission("user:delete");
+        subject.checkRoles("admin");
     }
 }

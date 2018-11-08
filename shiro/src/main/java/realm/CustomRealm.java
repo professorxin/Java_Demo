@@ -20,12 +20,15 @@ public class CustomRealm extends AuthorizingRealm {
     HashMap<String,String> hashMap=new HashMap<String, String>();
     Set<String> set=new HashSet<String>();
 
+    //存储了账号和md5和盐值加密后的密码
     {
-        hashMap.put("asdfgh","1c0f159ddeb7dca24ee3be653a2614d1");
+        hashMap.put("asdfgh","003dc55c5d91addfead4a4fa347c4f2d");
+        //可以先忽略这个
         super.setName("abc");
     }
 
 
+    //取出所需的角色和权限，构建simpleAuthorizationInfo对象返回，进行权限认证
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String name= (String) principalCollection.getPrimaryPrincipal();
         Set<String> roles=getRoleByName(name);
@@ -35,6 +38,7 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
 
+    //存储了账号和对应的角色
     private Set<String> getRoleByName(String name) {
         Set<String> set=new HashSet<String>();
         set.add("admin");
@@ -43,7 +47,7 @@ public class CustomRealm extends AuthorizingRealm {
 
 
 
-    //从数据库中取出所需的，构建simpleAuthenticationInfo对象返回，与UsernamePasswordToken对比
+    //取出所需的密码，构建simpleAuthenticationInfo对象返回，与UsernamePasswordToken进行认证对比
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String name= (String) authenticationToken.getPrincipal();
         String password=getPasswordByname(name);
@@ -51,7 +55,7 @@ public class CustomRealm extends AuthorizingRealm {
             return null;
         }
         SimpleAuthenticationInfo simpleAuthenticationInfo=new SimpleAuthenticationInfo(name,password,"abc");
-        simpleAuthenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(""));
+        simpleAuthenticationInfo.setCredentialsSalt(ByteSource.Util.bytes("asdfgh"));
         return simpleAuthenticationInfo;
     }
 
@@ -60,8 +64,10 @@ public class CustomRealm extends AuthorizingRealm {
         return password;
     }
 
+
+    //003dc55c5d91addfead4a4fa347c4f2d这个密码就是从这里的出来的
     public static void main(String agrs[]){
-        Md5Hash md5Hash=new Md5Hash("123456","opp");
+        Md5Hash md5Hash=new Md5Hash("123456","asdfgh");
         System.out.println(md5Hash.toString());
     }
 }

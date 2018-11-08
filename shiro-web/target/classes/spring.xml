@@ -7,13 +7,14 @@
     <!--扫描Service注解-->
     <context:component-scan base-package="com.imooc.service"/>
 
-    <!--被拦截的请求会被调用shiroFilter-->
+    <!--shiro的web过滤器-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="login.html"/>
         <property name="unauthorizedUrl" value="403.html"/>
         <property name="filterChainDefinitions">
             <value>
+                <!--anon表示无需验证，authc表示需要验证-->
                 /login.html = anon
                 /sublogin = anon
                 /* = authc
@@ -21,6 +22,7 @@
         </property>
     </bean>
 
+    <!--安全管理器-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="realm"/>
     </bean>
@@ -30,6 +32,7 @@
         <property name="credentialsMatcher" ref="hashedCredentialsMatcher"/>
     </bean>
 
+    <!--凭证匹配器-->
     <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="1"/>
@@ -44,6 +47,7 @@
     </bean>
 
 
+    <!--sqlSessionFactory的形成，可看作spring和mybatis整合的重要一步-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
