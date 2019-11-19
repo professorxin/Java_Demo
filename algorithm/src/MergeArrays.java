@@ -27,7 +27,7 @@ public class MergeArrays {
         for (int i = 0; i < nums.length; i += 2) {
             result[i / 2] = mergeTwoArray(nums[i], nums[i + 1]);
         }
-        return mergeArrays(result);
+        return merge(result);
     }
 
 
